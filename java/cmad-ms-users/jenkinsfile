@@ -8,12 +8,20 @@ pipeline {
    stages {
       stage('build') {
          steps {
+	    when {
+	       changeset 'java/cmad-ms-users/**'
+	       branch 'master'
+	    }
             echo 'compiling users service'
             sh 'mvn -f java/cmad-ms-users/pom.xml compile'
          }
       }
       stage('test') {
          steps {
+	    when {
+	       changeset 'java/cmad-ms-users/**'
+	       branch 'master'
+	    }
             echo 'running unit tests on users service'
 	    dir('java/cmad-ms-users') {
 	       sh 'mvn clean test'
@@ -22,6 +30,10 @@ pipeline {
       }
       stage('package') {
          steps {
+	    when {
+	       changeset 'java/cmad-ms-users/**'
+	       branch 'master'
+	    }
             echo 'packaging users app'
             dir('java/cmad-ms-users') {
                sh 'mvn package -DskipTests'
