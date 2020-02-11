@@ -1,0 +1,38 @@
+pipeline {
+   agent any
+   
+   tools{
+     maven 'Maven 3.6.1'
+   }
+
+   stages {
+      stage('build') {
+         steps {
+            echo 'compile users service'
+            dir('java/cmad-ms-ussers'){
+            	sh 'mvn compile'
+            }
+         }
+      }
+      stage('test') {
+         steps {
+            echo 'run unit tests'
+            dir('java/cmad-ms-ussers'){
+            	sh 'mvn clean test'
+            }
+            
+         }
+      }
+     stage('package') {
+         steps {
+            echo 'package users service'
+            dir('java/cmad-ms-ussers'){
+            	sh 'mvn package -DskipTests'
+            }
+            
+         }
+      }
+
+
+   }
+}
