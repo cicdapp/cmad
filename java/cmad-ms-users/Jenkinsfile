@@ -2,32 +2,33 @@ pipeline {
     agent any
     tools{
       maven 'maven 3.6.1'
+} stages{
+        stage(one){
+          steps{
+              echo 'Compiling users app..'
+              dir('java/cmad-ms-users'){
+                sh 'mvn compile'
+              }
+} }
+      stage(two){
+          steps{
+              echo 'Running Unit Tets on users app..'
+              dir('java/cmad-ms-users'){
+                sh 'mvn clean test'
+              }
+} }
+      stage(three){
+          steps{
+              echo 'Packaging users app'
+              dir('java/cmad-ms-users'){
+                sh 'mvn package -DskipTests'
+              }
+} }
 }
-    stages{
-        stage("build"){
-            steps{
-                echo 'Compiling users app..'
-                dir('java/cmad-ms-users'){
-                  sh 'mvn compile'
-                }
-} }
-        stage("test"){
-            steps{
-                echo 'Running Unit Tets on users app..'
-                dir('java/cmad-ms-users'){              
-                    sh 'mvn clean test'
-                }
-} }
-        stage("package"){
-            steps{
-                echo 'Packaging users app'
-                dir('java/cmad-ms-users'){
-                  sh 'mvn package'
-                }
-} }
-}
-    post{
-      always{
-          echo 'Building multibranch pipeline for users is completed..'
-      }
+  post{
+    always{
+        archiveArtifacts artifacts: 'java/cmad-ms-users/target/*.jar',
+fingerprint: true
+        echo 'Building multibranch pipeline for users is completed..'
+    }
 } }
