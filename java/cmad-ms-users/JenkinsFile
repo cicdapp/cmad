@@ -1,26 +1,26 @@
 pipeline{ 
       agent{
          docker{
-           image ‘maven:3.6.1-jdk-8-slim’
-           args ‘-v $HOME/.m2:/root/.m2’
+           image 'maven:3.6.1-jdk-8-slim'
+           args '-v $HOME/.m2:/root/.m2'
          }
 } 
       stages{
-          stage(‘build’){
+          stage('build'){
               steps{
-                  echo ‘building users app’
-                  dir(‘java/cmad-ms-users’){
-                    sh ‘mvn compile’
+                  echo 'building users app'
+                  dir('java/cmad-ms-users'){
+                    sh 'mvn compile'
                   }
 } } 
-          stage(‘test’){
+          stage('test'){
               steps{
-                  echo ‘running unit tests on users app’
-                  dir('java/cmad-ms-users’){
-                    sh ‘mvn clean test’
+                  echo 'running unit tests on users app'
+                  dir('java/cmad-ms-users'){
+                    sh 'mvn clean test'
                   }
 } } 
-          stage(‘package’){
+          stage('package'){
 steps{
 {
                   echo 'packaging users app into a jarfile'
@@ -30,7 +30,7 @@ steps{
 } } 
       post{
           always{
-              echo ‘the job is complete’
+              echo 'the job is complete'
           }
 } } 
 
